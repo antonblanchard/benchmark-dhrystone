@@ -81,7 +81,7 @@ float           Microseconds,
 /* end of variables for time measurement */
 
 
-main ()
+int main (void)
 /*****/
 
   /* main program, corresponds to procedures        */
@@ -314,7 +314,8 @@ main ()
     printf ("%d \n", (int)Dhrystones_Per_Second);
     printf ("\n");
   }
-  
+
+  return 0;
 }
 
 
