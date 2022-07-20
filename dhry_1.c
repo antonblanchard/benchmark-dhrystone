@@ -311,6 +311,8 @@ int main (void)
     printf ("Dhrystones per Second:                      ");
     printf ("%6.1f \n", Dhrystones_Per_Second);
     //printf ("%d \n", (int)Dhrystones_Per_Second);
+    printf ("DMIPS:                                      ");
+    printf( "%.2f\n", Dhrystones_Per_Second/1757.0);
     printf ("\n");
   }
 
