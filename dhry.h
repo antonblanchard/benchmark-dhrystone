@@ -347,8 +347,10 @@
 /* Compiler and system dependent definitions: */
 
 #ifndef TIME
+#ifndef CLOCK_GETTIME
 #undef TIMES
 #define TIMES
+#endif
 #endif
                 /* Use times(2) time function unless    */
                 /* explicitly defined otherwise         */
@@ -365,6 +367,10 @@
 #include <sys/types.h>
 #include <sys/times.h>
                 /* for "times" */
+#endif
+
+#ifdef CLOCK_GETTIME
+#include <time.h>
 #endif
 
 #define Mic_secs_Per_Second     1000000

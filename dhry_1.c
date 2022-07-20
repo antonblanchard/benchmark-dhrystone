@@ -67,6 +67,10 @@ extern long     time();
 extern clock_t	clock();
 #define Too_Small_Time (2*HZ)
 #endif
+#ifdef CLOCK_GETTIME
+struct timespec tv_start, tv_end;
+#define Too_Small_Time 1000 /* microseconds */
+#endif
 
 long            Begin_Time,
                 End_Time,
@@ -153,6 +157,10 @@ main ()
 #ifdef MSC_CLOCK
   Begin_Time = clock();
 #endif
+#ifdef CLOCK_GETTIME
+  clock_gettime(CLOCK_MONOTONIC, &tv_start);
+  Begin_Time = 0;
+#endif
 
   for (Run_Index = 1; Run_Index <= Number_Of_Runs; ++Run_Index)
   {
@@ -213,6 +221,13 @@ main ()
 #endif
 #ifdef MSC_CLOCK
   End_Time = clock();
+#endif
+#ifdef CLOCK_GETTIME
+  clock_gettime(CLOCK_MONOTONIC, &tv_end);
+  End_Time = (tv_end.tv_sec - tv_start.tv_sec) * 1000000000ULL +
+    (tv_end.tv_nsec - tv_start.tv_nsec);
+  /* Convert to microseconds */
+  End_Time /= 1000;
 #endif
 
   printf ("Execution ends\n");
@@ -282,6 +297,9 @@ main ()
     Microseconds = (float) User_Time * Mic_secs_Per_Second 
                         / (float) Number_Of_Runs;
     Dhrystones_Per_Second = (float) Number_Of_Runs / (float) User_Time;
+#elif CLOCK_GETTIME
+    Microseconds = (float)User_Time/(float)Number_Of_Runs;
+    Dhrystones_Per_Second = (float) Number_Of_Runs / (float) (User_Time/1000000.0);
 #else
     Microseconds = (float) User_Time * Mic_secs_Per_Second 
                         / ((float) HZ * ((float) Number_Of_Runs));
