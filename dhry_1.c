@@ -15,6 +15,9 @@
  ****************************************************************************
  */
 
+#include <string.h>
+#include <stdlib.h>
+
 #include "dhry.h"
 
 #ifndef DHRY_ITERS
